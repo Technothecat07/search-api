@@ -5,14 +5,14 @@ import os
 
 app = Flask(__name__)
 
-# Enable CORS for Blogspot
+# Enable CORS
 CORS(app)
 
 # Database path
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 DB_PATH = os.path.join(BASE_DIR, "students.db")
 
-# Global unlock password
+# Master unlock password
 MASTER_PASSWORD = "Technothecat07"
 
 @app.route("/")
@@ -72,12 +72,11 @@ def search():
 
         row = dict(r)
 
-        # Hide mobile unless correct master password entered
+        # Hide mobile and password unless correct password entered
         if unlock_password != MASTER_PASSWORD:
-            row["mobile"] = "HIDDEN"
 
-        # Always hide stored passwords
-        row["password"] = "PROTECTED"
+            row["mobile"] = "HIDDEN"
+            row["password"] = "PROTECTED"
 
         rows.append(row)
 
