@@ -77,6 +77,7 @@ def search():
 
             row["mobile"] = "HIDDEN"
             row["password"] = "PROTECTED"
+            row["user_id"] = "HIDDEN"
 
         rows.append(row)
 
