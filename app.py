@@ -44,6 +44,11 @@ def search():
     query = request.args.get("q", "").strip()
     unlock_password = request.args.get("password", "").strip()
 
+    page = int(request.args.get("page", 1))
+
+    limit = 10
+    offset = (page - 1) * limit
+
     if not query:
         return jsonify([])
 
@@ -52,14 +57,14 @@ def search():
 
     cur = conn.cursor()
 
-    sql = """
+    sql = f"""
     SELECT * FROM students
     WHERE
         name LIKE ? OR
         user_id LIKE ? OR
         email LIKE ? OR
         mobile LIKE ?
-    LIMIT 20
+    LIMIT {limit} OFFSET {offset}
     """
 
     q = f"%{query}%"
