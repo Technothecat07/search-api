@@ -12,7 +12,7 @@ CORS(app)
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 DB_PATH = os.path.join(BASE_DIR, "students.db")
 
-# Master unlock password
+# Master password
 MASTER_PASSWORD = "Technothecat07"
 
 @app.route("/")
@@ -59,7 +59,7 @@ def search():
         user_id LIKE ? OR
         email LIKE ? OR
         mobile LIKE ?
-    LIMIT 50
+    LIMIT 20
     """
 
     q = f"%{query}%"
@@ -72,12 +72,15 @@ def search():
 
         row = dict(r)
 
-        # Hide mobile and password unless correct password entered
+        # Hide sensitive data unless password is correct
         if unlock_password != MASTER_PASSWORD:
 
-            row["mobile"] = "HIDDEN"
-            row["password"] = "PROTECTED"
             row["user_id"] = "HIDDEN"
+            row["password"] = "PROTECTED"
+            row["father"] = "HIDDEN"
+            row["mobile"] = "HIDDEN"
+            row["roll_no"] = "HIDDEN"
+            row["email"] = "HIDDEN"
 
         rows.append(row)
 
